@@ -132,8 +132,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label>Category</label>
-                            <input type="text" name="category" class="form-control <?php echo (!empty($category_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $category; ?>">
-                            <span class="invalid-feedback"><?php echo $category_err; ?></span>
+                            <select name="category" id="categories" class="form-control">
+                                <option value="All category">All category</option>
+                                <option value="Food">Food</option>
+                                <option value="Electronic">Electronic</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Houshold">Household</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Quantity</label>

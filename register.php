@@ -6,7 +6,9 @@ $companyName = "";
 $email = "";
 $password = "";
 $confirmPassword = "";
+$hash = "";
 $errors = "";
+$num = 0;
 
 if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['companyName']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['confirmPassword'])) {
     $userID = rand(10, 100000);
@@ -17,20 +19,27 @@ if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['com
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
+    if ($password == $confirmPassword) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    require_once "config.php";
-    $sql = "INSERT INTO companyuser VALUES (:userID, :firstName, :lastName, :companyName, :email, :password )";
-    $stmt = $pdo->prepare($sql);
+        require_once "config.php";
+        $sql = "INSERT INTO companyuser VALUES (:userID, :firstName, :lastName, :companyName, :email, :password )";
+        $stmt = $pdo->prepare($sql);
 
-    $stmt->execute(array(
-        ':userID' => $userID,
-        ':firstName' => $firstName,
-        ':lastName' => $lastName,
-        ':companyName' => $companyName,
-        ':email' => $email,
-        ':password' => $password
-    ));
-    $errors = "Successfully Registered";
+        $stmt->execute(array(
+            ':userID' => $userID,
+            ':firstName' => $firstName,
+            ':lastName' => $lastName,
+            ':companyName' => $companyName,
+            ':email' => $email,
+            ':password' => $hash
+        ));
+        $num = 1;
+        $errors = "Successfully Registered";
+    } else {
+        $num = 2;
+        $errors = "Password and Confirm Password Not Same!";
+    }
 }
 
 ?>
@@ -56,8 +65,10 @@ if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['com
             <h2>Register</h2>
             <p class="hint-text">Create your account. It's free and only takes a minute.</p>
             <?php
-            if ($errors) {
+            if ($num == 1) {
                 echo '<p style="color:green">' . $errors;
+            } else if ($num == 2) {
+                echo '<p style="color:red">' . $errors;
             }
             ?>
             <div class="form-group">

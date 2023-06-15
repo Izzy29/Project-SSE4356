@@ -18,6 +18,10 @@ if (!isset($_SESSION['userID'])) {
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
+        body {
+            background-image: url("company.jpg");
+        }
+
         .wrapper {
             width: 800px;
             margin: 0 auto;

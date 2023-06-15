@@ -15,7 +15,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($rows) {
         foreach ($rows as $row) {
-            if ($password == $row['password']) {
+            if (password_verify($password, $row['password'])) {
                 $_SESSION['userID'] = $row['userID'];
                 header("Location: index.php");
             } else {
